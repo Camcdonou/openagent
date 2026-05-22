@@ -1,0 +1,24 @@
+{
+  "name": "openagent",
+  "version": "1.0.0",
+  "description": "Pi extension for delegating tasks to specialized subagents via OpenRouter — no slot scheduler needed",
+  "license": "MIT",
+  "author": "Connor McDonough",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Camcdonou/openagent.git"
+  },
+  "keywords": [
+    "pi-package"
+  ],
+  "pi": {
+    "extensions": ["./index.ts"]
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-ai": "*",
+    "@mariozechner/pi-tui": "*",
+    "@mariozechner/pi-agent-core": "*",
+    "@sinclair/typebox": "*"
+  }
+}
