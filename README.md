@@ -15,18 +15,19 @@ Designed to complement [pi-synthetic-subagent](https://github.com/Camcdonou/pi-s
 
 ## Agents
 
-| Agent | Model | Cost Tier | Tools | Purpose |
-|-------|-------|-----------|-------|---------|
-| `scout` | Gemini 2.5 Flash | fast | read, grep, find, ls, bash | Fast recon, returns compressed context |
-| `planner` | DeepSeek V4 Flash | power | read, grep, find, ls | Creates implementation plans (read-only) |
-| `worker` | DeepSeek V4 Flash | power | all | General-purpose coder, writes code |
-| `reviewer` | DeepSeek V4 Flash | power | read, grep, find, ls, bash | Code review (read-only bash) |
-| `doc-writer` | Gemini 2.5 Flash | fast | read, write, edit, grep, find, ls | Documentation generation |
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| `scout` | DeepSeek V4 Flash | read, grep, find, ls, bash | Fast recon, returns compressed context |
+| `planner` | DeepSeek V4 Flash | read, grep, find, ls | Creates implementation plans (read-only) |
+| `worker` | DeepSeek V4 Flash | all | General-purpose coder, writes code |
+| `reviewer` | DeepSeek V4 Flash | read, grep, find, ls, bash | Code review (read-only bash) |
+| `doc-writer` | DeepSeek V4 Flash | read, write, edit, grep, find, ls | Documentation generation |
 
-### Why these models?
+### Why DeepSeek V4 Flash?
 
-- **DeepSeek V4 Flash** — 79.0% SWE-Bench Verified, 91.6% LiveCodeBench. Excellent coding capability at a very low cost. Serves as the primary worker, planner, and reviewer.
-- **Gemini 2.5 Flash** — Fast, cheap, and capable for surface-level exploration and documentation. Used for scout and doc-writer tasks where raw coding power isn't needed.
+- **79.0% SWE-Bench Verified**, 91.6% LiveCodeBench Pass@1. Excellent coding capability at a very low cost.
+- One model for all agents — no need to juggle multiple models or tiers.
+- Makes the extension simpler: no tier routing, no fallback logic needed.
 
 ### Custom agents
 
@@ -103,10 +104,6 @@ Config is stored in `~/.pi/agent/settings.json` under the `"openagent"` key:
       "deepseek/deepseek-v4-flash": {
         "cost": 0.15,
         "tier": "power"
-      },
-      "google/gemini-2.5-flash": {
-        "cost": 0.10,
-        "tier": "fast"
       }
     }
   }
@@ -116,18 +113,16 @@ Config is stored in `~/.pi/agent/settings.json` under the `"openagent"` key:
 | Field | Default | Description |
 |-------|---------|-------------|
 | `weeklyBudget` | `24` | Weekly spending limit in USD for budget warnings |
-| `defaultModel` | `deepseek/deepseek-v4-flash` | Fallback model when an agent doesn't specify one |
+| `defaultModel` | `deepseek/deepseek-v4-flash` | Used for all agents |
 | `maxConcurrency` | `8` | Max parallel subagent processes |
-| `models` | (see above) | Map of model ID → `{ cost, tier }` |
+| `models` | one model | Map of model ID → `{ cost, tier }` |
 
-Edit directly in `settings.json` to add more OpenRouter models:
+To add more models later, just add entries to the `models` map:
 
 ```json
 "models": {
   "deepseek/deepseek-v4-flash": { "cost": 0.15, "tier": "power" },
-  "google/gemini-2.5-flash": { "cost": 0.10, "tier": "fast" },
-  "anthropic/claude-sonnet-4": { "cost": 3.0, "tier": "power" },
-  "openai/gpt-4o": { "cost": 2.5, "tier": "power" }
+  "anthropic/claude-sonnet-4": { "cost": 3.0, "tier": "power" }
 }
 ```
 

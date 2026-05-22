@@ -39,10 +39,6 @@ export const DEFAULT_MODELS: Record<string, ModelConfig> = {
 		cost: 0.15,
 		tier: "power",
 	},
-	"google/gemini-2.5-flash": {
-		cost: 0.10,
-		tier: "fast",
-	},
 };
 
 export const DEFAULT_CONFIG: OpenAgentConfig = {
