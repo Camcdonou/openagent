@@ -982,8 +982,8 @@ export default function (pi: ExtensionAPI) {
 		},
 	});
 
-	// ── /openagent Command: Status Dashboard ──
-	pi.registerCommand("openagent", {
+	// ── /or-subagent Command: Status Dashboard ──
+	pi.registerCommand("or-subagent", {
 		description: "Show OpenAgent status (agents, models, budget) or delegate a task",
 		handler: async (args, ctx) => {
 			if (!setupDone) {
